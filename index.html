@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TorchX · Changping Laboratory</title>
+  <meta name="description" content="TorchX is an open all-atom biomolecular foundation model: TorchFold for co-folding, TorchScore for score-only evaluation, and TorchCraft for predictor-inversion design." />
+  <meta name="theme-color" content="#f4f7fb" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css?v=clarity-20260911-19" />
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <nav class="nav" aria-label="Sections">
+        <div class="nav-item" data-dropdown>
+          <button class="nav-btn" type="button">1. TorchFold <i class="fa-solid fa-chevron-down"></i></button>
+          <div class="dropdown">
+            <a href="#tf-paper">Paper info</a>
+            <a href="#tf-overview">Overview of TorchFold</a>
+            <a href="#tf-distillation">Two-round distillation</a>
+            <a href="#tf-benchmarks">Antibody–antigen structure prediction</a>
+            <a href="#tf-dockq-curve">DockQ success-rate curve</a>
+            <a href="#tf-tts">Test-time scaling</a>
+            <a href="#tf-confidence">ipTM is a precise filter of successful interfaces</a>
+            <a href="#tf-large-ag">Antigen-length analysis</a>
+            <a href="#tf-cases">Case studies</a>
+            <a href="#tf-score">TorchScore for antibody–antigen structure evaluation</a>
+          </div>
+        </div>
+        <div class="nav-item" data-dropdown>
+          <button class="nav-btn" type="button">2. TorchCraft <i class="fa-solid fa-chevron-down"></i></button>
+          <div class="dropdown">
+            <a href="#tc-paper">Paper info</a>
+            <a href="#tc-framework">Framework</a>
+            <a href="#tc-minibinder">Minibinders</a>
+            <a href="#tc-vhh">VHH</a>
+            <a href="#tc-other">Cyclic peptides &amp; ligands</a>
+            <a href="#tc-runtime">Runtime</a>
+          </div>
+        </div>
+        <a class="nav-link" href="#citations">Citations</a>
+      </nav>
+      <a class="brand" href="#">
+        <strong>TorchX</strong>
+        <span>Changping Laboratory</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <header class="hero">
+      <p class="kicker"><span></span> Open-source · GPU &amp; Ascend NPU</p>
+      <h1><span>Torch</span>X</h1>
+      <p class="hero-statement">A unified all-atom foundation for<br />predicting, evaluating, and designing biomolecules.</p>
+      <div class="pills">
+        <a class="pill solid" href="assets/papers/torchfold.pdf"><i class="fa-regular fa-file-pdf"></i> TorchFold Paper</a>
+        <a class="pill solid" href="assets/papers/torchcraft.pdf"><i class="fa-regular fa-file-pdf"></i> TorchCraft Paper</a>
+        <a class="pill" href="https://github.com/Mingchenchen/TorchX" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> Code</a>
+        <a class="pill" href="https://torchfold.openi.org.cn/" target="_blank" rel="noopener"><i class="fa-solid fa-server"></i> Web Server</a>
+      </div>
+      <div class="hero-orbit orbit-one" aria-hidden="true"></div>
+      <div class="hero-orbit orbit-two" aria-hidden="true"></div>
+    </header>
+
+    <!-- ===================== TorchFold ===================== -->
+    <section class="part" id="tf-paper">
+      <p class="part-label blue">1. TorchFold</p>
+      <h2 class="paper-title">Improving antibody–antigen structure prediction through large-scale distillation of sequence pairs</h2>
+      <p class="authors">TorchFold Team</p>
+      <p class="affil">Changping Laboratory, Beijing, China</p>
+      <p class="affil">Corresponding author: <a href="mailto:mingchenchen@cpl.ac.cn">mingchenchen@cpl.ac.cn</a></p>
+      <p class="venue">Changping Laboratory, 2026</p>
+      <div class="pills">
+        <a class="pill solid" href="assets/papers/torchfold.pdf"><i class="fa-regular fa-file-pdf"></i> Paper</a>
+      </div>
+
+      <h3 class="block" id="tf-overview">Overview of TorchFold</h3>
+      <div class="split">
+        <div class="split-copy">
+          <p>TorchFold improves antibody–antigen prediction through three training components:</p>
+          <ul class="facts">
+            <li>An interface-specific loss concentrates the coordinate objective on the binding surface.</li>
+            <li>A revised stage-2 noise schedule moves from stronger corruption to structural refinement.</li>
+            <li>Two rounds of distillation convert antibody–antigen sequence pairs into confidence-filtered structural labels.</li>
+          </ul>
+        </div>
+        <figure class="figure split-fig">
+          <img src="assets/figures/tf_fig1.png" alt="TorchFold overview" />
+          <figcaption class="caption"><strong>Figure 1.</strong> TorchFold overview: architecture, interface supervision, revised noise schedule, and two-round sequence-pair distillation.</figcaption>
+        </figure>
+      </div>
+
+      <h3 class="block" id="tf-distillation">Two-round sequence-pair distillation</h3>
+      <p>Accepted distillates add predicted epitope coverage and interface-contact patterns beyond those represented in SAbDab, broadening the recognition geometries available during training.</p>
+      <figure class="figure banner">
+        <img src="assets/figures/tf_fig3.png" alt="Epitope coverage versus SAbDab" />
+        <figcaption class="caption"><strong>Figure 2.</strong> Predicted epitope coverage and interface contacts in the distilled collection versus SAbDab.</figcaption>
+      </figure>
+
+      <div class="split">
+        <div class="split-copy">
+          <p>The from-scratch model was trained on Huawei Ascend NPUs and reached 34.0% ranked FoldBench success. It then predicted sequence pairs from computational designs, patent and private discovery collections, ASD, and CoV-AbDab; high-confidence complexes became first-round labels. Fine-tuning on these labels and experimental structures reached 65.9%.</p>
+          <p>The first-round model revisited medium-confidence candidates. Newly accepted structures expanded the final Ab–Ag training collection to about 24.5k examples and raised success to 70.1%.</p>
+        </div>
+        <figure class="figure split-fig">
+          <img src="assets/figures/tf_fig2.png" alt="FoldBench success versus total Ab-Ag training examples" />
+          <figcaption class="caption"><strong>Figure 3.</strong> Two-round antibody–antigen distillation. FoldBench Ab–Ag success versus total Ab–Ag training examples (×10³). From-scratch 5.0k, 34.0%; stage 1 22.9k, 65.9%; stage 2 24.5k, 70.1%.</figcaption>
+        </figure>
+      </div>
+
+      <h3 class="block" id="tf-benchmarks">Antibody–antigen structure prediction</h3>
+      <div class="split split-portrait">
+        <div class="split-copy">
+          <p>TorchFold was compared with AlphaFold3, Protenix-v2, and OpenDDE using a shared AF3 MSA pipeline. Success is defined at DockQ &gt; 0.23; ranked and oracle results report the top-scored and best-sampled interfaces, respectively.</p>
+          <ul class="facts">
+            <li>Ranked FoldBench-AB success is 70.1%, with a substantial share of medium- and high-quality interfaces.</li>
+            <li>The same evaluation is reported on CPL-28, PXMeter-AB, 2026ARK-AB, and AbAg2526 under identical settings.</li>
+            <li>Oracle results exceed ranked results across all collections, showing that additional successful interfaces are present in the sampled ensembles.</li>
+            <li>As a checkpoint-transfer experiment, AF3-TF loads the TorchFold-AbAg checkpoint into a compatibility-adapted AF3 implementation. Its success rates closely track TorchFold across all five benchmarks, showing that the learned antibody–antigen prediction capability is retained across implementations.</li>
+          </ul>
+        </div>
+        <figure class="figure split-fig">
+          <img src="assets/figures/tf_fig4.png?v=20260916-cpl28" alt="DockQ success on five Ab-Ag benchmarks" />
+          <figcaption class="caption"><strong>Figure 4.</strong> Antibody–antigen DockQ success. (a) Ranking-based and (b) oracle-based success on FoldBench-AB, 2026ARK-AB, AbAg2526, CPL-28 and PXMeter-AB. AF3-TF denotes AF3 loaded with the TorchFold-AbAg checkpoint.</figcaption>
+        </figure>
+      </div>
+
+      <h3 class="block" id="tf-dockq-curve">DockQ success-rate curve</h3>
+      <div class="split split-rev">
+        <div class="split-copy">
+          <p>Cumulative DockQ curves show that a substantial fraction of top-ranked predictions on FoldBench-AB, CPL-28, and PXMeter-AB fall in the medium- and high-quality regimes, not only above the acceptable cutoff. The AF3-TF curves remain close to TorchFold across the five benchmarks.</p>
+        </div>
+        <figure class="figure split-fig compact">
+          <img src="assets/figures/tf_fig5.png?v=20260916-cpl28" alt="Cumulative DockQ success-rate curves" />
+          <figcaption class="caption"><strong>Figure 5.</strong> Cumulative DockQ success-rate curves. Fraction of interfaces whose top-ranked prediction reaches DockQ ≥ the cutoff.</figcaption>
+        </figure>
+      </div>
+
+      <h3 class="block" id="tf-tts">Test-time scaling</h3>
+      <p>More inference-time samples improve both ranked and oracle FoldBench-AB success. At 100 seeds, TorchFold reaches 72.4% ranked success and 93.6% oracle success, showing substantial sampling headroom.</p>
+      <figure class="figure banner compact">
+        <img src="assets/figures/tf_fig6.png" alt="Test-time scaling on FoldBench-AB" />
+        <figcaption class="caption"><strong>Figure 6.</strong> Test-time scaling on FoldBench-AB. (a) Ranking-based selection (DockQ &gt; 0.23). (b) Ranking-based selection of DockQ &gt; 0.8. (c) Oracle-based selection (DockQ &gt; 0.23).</figcaption>
+      </figure>
+
+      <h3 class="block" id="tf-confidence">ipTM is a precise filter of successful interfaces</h3>
+      <div class="split">
+        <div class="split-copy">
+          <p>Across five pooled benchmarks, ipTM provides a precise filter for successful interfaces:</p>
+          <ul class="facts">
+            <li>At ipTM ≥ 0.8, 292/297 predictions have DockQ &gt; 0.23 (<strong>98.3%</strong>), and 288/297 exceed DockQ 0.49.</li>
+            <li>Mean and median DockQ are 0.80 and 0.84 in this high-confidence subset.</li>
+            <li>At ipTM ≥ 0.7, precision remains <strong>94.3%</strong> (416/441).</li>
+          </ul>
+        </div>
+        <figure class="figure split-fig">
+          <img src="assets/figures/tf_fig7.png" alt="ipTM versus DockQ" />
+          <figcaption class="caption"><strong>Figure 7.</strong> Ranked ipTM versus DockQ, pooled across benchmarks. Rank-top-1 antibody–antigen pair ipTM against DockQ for AlphaFold3, Protenix-v2, OpenDDE and TorchFold (956 interfaces).</figcaption>
+        </figure>
+      </div>
+
+      <h3 class="block" id="tf-large-ag">Accuracy by antigen length</h3>
+      <div class="split split-rev">
+        <div class="split-copy">
+          <p>TorchFold recovers 74% of interfaces for antigens up to 50 residues and 38% beyond 600 residues. Accuracy decreases with antigen length across the evaluated models.</p>
+        </div>
+        <figure class="figure split-fig">
+          <img src="assets/figures/tf_fig8.png?v=20260911-2" alt="DockQ success versus antigen length" />
+          <figcaption class="caption"><strong>Figure 8.</strong> DockQ success versus antigen length. Interfaces pooled across FoldBench-AB, 2026ARK-AB, AbAg2526, CPL-28 and PXMeter-AB, binned by antigen residue count.</figcaption>
+        </figure>
+      </div>
+
+      <h3 class="block" id="tf-cases">Case studies</h3>
+      <div class="split">
+        <div class="split-copy">
+          <p>Three crystallographic examples illustrate accurate epitope localization and binding orientation. Experimental coordinates are gray, TorchFold cyan, and OpenDDE green.</p>
+          <ul class="facts">
+            <li>7TXW: both Pfs25 interfaces are recovered (DockQ 0.90 and 0.85).</li>
+            <li>8AV2: the crystallographic leptin-receptor site is recovered (DockQ 0.88).</li>
+            <li>9JBQ: the PcrV binding mode is recovered (DockQ 0.96).</li>
+          </ul>
+        </div>
+        <figure class="figure split-fig">
+          <img src="assets/figures/tf_fig9.png" alt="Three antibody-antigen case studies" />
+          <figcaption class="caption"><strong>Figure 9.</strong> Recognition of three antibody–antigen epitopes. Top, TorchFold (cyan); bottom, OpenDDE (green), each aligned to the experimental antigen and overlaid on the crystallographic antibody (gray).</figcaption>
+        </figure>
+      </div>
+
+      <h3 class="block" id="tf-score">TorchScore for antibody–antigen structure evaluation</h3>
+      <div class="split">
+        <div class="split-copy">
+          <p>TorchScore bypasses diffusion generation and evaluates supplied coordinates through the TorchFold confidence pathway. It uses the same antibody–antigen model weights, with no separately trained network.</p>
+          <ul class="facts">
+            <li>On AbAg PDB55, TorchScore ipTM correlates with DockQ at Pearson <strong>0.869</strong> (RMSE 0.187).</li>
+            <li>The score can be used to screen and rank candidate complexes without regenerating structures.</li>
+          </ul>
+        </div>
+        <figure class="figure split-fig compact">
+          <img src="assets/figures/tf_fig10.png" alt="TorchScore on AbAg PDB55" />
+          <figcaption class="caption"><strong>Figure 10.</strong> ipTM versus DockQ on AbAg PDB55. TorchScore loaded with the TorchFold Ab–Ag checkpoint. Dashed lines: Acceptable, Medium and High DockQ thresholds.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===================== TorchCraft ===================== -->
+    <section class="part" id="tc-paper">
+      <p class="part-label orange">2. TorchCraft</p>
+      <h2 class="paper-title">TorchCraft: Unified binder design by inverting an all-atom structure predictor</h2>
+      <p class="authors">TorchCraft Team</p>
+      <p class="affil">Changping Laboratory, Beijing, China</p>
+      <p class="affil">Corresponding author: <a href="mailto:mingchenchen@cpl.ac.cn">mingchenchen@cpl.ac.cn</a></p>
+      <p class="venue">Changping Laboratory, 2026</p>
+      <div class="pills">
+        <a class="pill solid" href="assets/papers/torchcraft.pdf"><i class="fa-regular fa-file-pdf"></i> Paper</a>
+      </div>
+
+      <h3 class="block" id="tc-framework">A frozen predictor as the design engine</h3>
+      <div class="split">
+        <div class="split-copy">
+          <p>TorchCraft optimizes editable sequence logits through a frozen predictor, using gradients from structural and sequence objectives.</p>
+          <ul class="facts">
+            <li>Confidence, contact, geometry, and sequence priors guide optimization.</li>
+            <li>Continuous sequence representations are progressively discretized.</li>
+            <li>The output is a designed sequence with its predicted all-atom structure.</li>
+          </ul>
+        </div>
+        <figure class="figure split-fig">
+          <img src="assets/figures/tc_fig1.png" alt="TorchCraft hallucination trajectory" />
+          <figcaption class="caption"><strong>Figure 11.</strong> Predictor-inversion design trajectory.</figcaption>
+        </figure>
+      </div>
+      <div class="split split-rev">
+        <div class="split-copy">
+          <ul class="facts">
+            <li>One optimization engine covers minibinders, VHHs, cyclic peptides, and ligand-binding proteins.</li>
+            <li>Tasks differ in editable positions, constraints, losses, and schedules.</li>
+          </ul>
+        </div>
+        <figure class="figure split-fig">
+          <img src="assets/figures/tc_fig2.png" alt="TorchCraft framework" />
+          <figcaption class="caption"><strong>Figure 12.</strong> TorchCraft overview.</figcaption>
+        </figure>
+      </div>
+
+      <h3 class="block" id="tc-minibinder">Minibinder design and validation</h3>
+      <div class="split">
+        <div class="split-copy">
+          <ul class="facts">
+            <li>Four design campaigns produced binders measured by multi-concentration BLI.</li>
+            <li>Apparent dissociation constants were in the nanomolar range.</li>
+            <li>Tested sequences came directly from TorchCraft without inverse-folding redesign.</li>
+          </ul>
+        </div>
+        <figure class="figure split-fig">
+          <img src="assets/figures/tc_fig4.png" alt="Minibinder wet-lab validation" />
+          <figcaption class="caption"><strong>Figure 13.</strong> Predicted minibinder complexes and multi-concentration BLI measurements.</figcaption>
+        </figure>
+      </div>
+      <ul class="facts facts-wide">
+        <li>An amino-acid composition regularizer improves sequence properties relevant to expression.</li>
+        <li>A 12-target benchmark compares TorchCraft with BoltzGen and RFdiffusion using TorchScore.</li>
+      </ul>
+      <figure class="figure banner">
+        <img src="assets/figures/tc_fig3.png" alt="Minibinder composition and benchmark" />
+        <figcaption class="caption"><strong>Figure 14.</strong> Sequence-composition regularization and the 12-target minibinder benchmark.</figcaption>
+      </figure>
+
+      <h3 class="block" id="tc-vhh">Framework-conditioned VHH design</h3>
+      <div class="split split-rev">
+        <div class="split-copy">
+          <ul class="facts">
+            <li>A predefined framework is fixed while the CDR regions are optimized.</li>
+            <li>CDR-restricted IgLM guidance introduces an antibody sequence prior.</li>
+            <li>Guidance improves IgLM likelihood and OASis humanness scores.</li>
+          </ul>
+        </div>
+        <figure class="figure split-fig compact">
+          <img src="assets/figures/tc_fig5.png" alt="CDR-restricted IgLM guidance" />
+          <figcaption class="caption"><strong>Figure 15.</strong> CDR-restricted language-model guidance and sequence analysis.</figcaption>
+        </figure>
+      </div>
+      <div class="split">
+        <div class="split-copy">
+          <ul class="facts">
+            <li>Four VHH campaigns produced binders measured by multi-concentration BLI.</li>
+            <li>Tested sequences came directly from framework-conditioned TorchCraft designs.</li>
+          </ul>
+        </div>
+        <figure class="figure split-fig">
+          <img src="assets/figures/tc_fig7.png" alt="VHH wet-lab validation" />
+          <figcaption class="caption"><strong>Figure 16.</strong> Predicted framework-conditioned VHH complexes and BLI measurements.</figcaption>
+        </figure>
+      </div>
+      <div class="split split-rev">
+        <div class="split-copy">
+          <ul class="facts">
+            <li>A 15-target benchmark compares TorchCraft with RFantibody, BoltzGen, and Germinal.</li>
+            <li>Optional AbMPNN redesign is evaluated separately.</li>
+          </ul>
+        </div>
+        <figure class="figure split-fig">
+          <img src="assets/figures/tc_fig6.png" alt="VHH design benchmark" />
+          <figcaption class="caption"><strong>Figure 17.</strong> TorchScore-based VHH benchmark across 15 targets, comparing BoltzGen, RFantibody, Germinal, TorchCraft and TorchCraft with AbMPNN.</figcaption>
+        </figure>
+      </div>
+
+      <h3 class="block" id="tc-other">Cyclic peptides and ligand-binding proteins</h3>
+      <div class="split">
+        <div class="split-copy">
+          <ul class="facts">
+            <li>Head-to-tail peptides use cyclic relative positional encoding.</li>
+            <li>Disulfide-linked peptides fix the cysteines that define cyclization.</li>
+            <li>An eight-target benchmark compares TorchCraft with RFpeptides and BoltzGen.</li>
+          </ul>
+        </div>
+        <figure class="figure split-fig">
+          <img src="assets/figures/tc_fig8.png" alt="Cyclic peptide design" />
+          <figcaption class="caption"><strong>Figure 18.</strong> Head-to-tail and disulfide-linked cyclic-peptide design.</figcaption>
+        </figure>
+      </div>
+      <ul class="facts facts-wide">
+        <li>Ligand-binding proteins are generated without a supplied native scaffold.</li>
+        <li>A ligand-free warm-up precedes optimization of ligand contacts.</li>
+        <li>Designs are evaluated with AutoDock Vina, Boltz-2, and TorchScore.</li>
+      </ul>
+      <figure class="figure banner">
+        <img src="assets/figures/tc_fig9.png" alt="Small-molecule pocket designs" />
+          <figcaption class="caption"><strong>Figure 19.</strong> Representative ligand-binding proteins.</figcaption>
+      </figure>
+      <h3 class="block" id="tc-runtime">Runtime on GPU and Ascend NPU</h3>
+
+      <div class="cmp-block">
+        <figure class="table-card">
+          <figcaption class="table-caption"><strong>Table S9.</strong> TorchCraft runtime across sequence lengths. Runtime in minutes, with batch size in parentheses. FA denotes the fused-attention operator. GPU timings are the mean of three independent runs.</figcaption>
+          <div class="table-scroll">
+            <table class="cmp">
+              <thead>
+                <tr>
+                  <th rowspan="2">Code</th>
+                  <th rowspan="2">Operator</th>
+                  <th rowspan="2">Machine</th>
+                  <th colspan="5">Runtime [min]</th>
+                </tr>
+                <tr>
+                  <th>100 aa</th>
+                  <th>200 aa</th>
+                  <th>300 aa</th>
+                  <th>400 aa</th>
+                  <th>500 aa</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>NPU</td>
+                  <td>w/ FA</td>
+                  <td>910B (64G)</td>
+                  <td>3.1 <span class="bs">(2)</span></td>
+                  <td>3.75 <span class="bs">(2)</span></td>
+                  <td>6.23 <span class="bs">(2)</span></td>
+                  <td>11.29 <span class="bs">(2)</span></td>
+                  <td>16.56 <span class="bs">(2)</span></td>
+                </tr>
+                <tr>
+                  <td>NPU</td>
+                  <td>w/o FA</td>
+                  <td>910B (64G)</td>
+                  <td>3.0 <span class="bs">(2)</span></td>
+                  <td>4.13 <span class="bs">(2)</span></td>
+                  <td>8.63 <span class="bs">(2)</span></td>
+                  <td>14.64 <span class="bs">(2)</span></td>
+                  <td>33.47 <span class="bs">(1)<sup>†</sup></span></td>
+                </tr>
+                <tr>
+                  <td>GPU</td>
+                  <td>w/o FA</td>
+                  <td>A100 (80G)</td>
+                  <td>2.9 <span class="bs">(1)</span></td>
+                  <td>3.7 <span class="bs">(1)</span></td>
+                  <td>5.3 <span class="bs">(1)</span></td>
+                  <td>7.77 <span class="bs">(1)</span></td>
+                  <td>10.93 <span class="bs">(1)</span></td>
+                </tr>
+                <tr>
+                  <td>GPU</td>
+                  <td>w/o FA</td>
+                  <td>A100 (80G)</td>
+                  <td>7.83 <span class="bs">(2)</span></td>
+                  <td>8.53 <span class="bs">(2)</span></td>
+                  <td>9.07 <span class="bs">(2)</span></td>
+                  <td>11.7 <span class="bs">(2)</span></td>
+                  <td>15.17 <span class="bs">(2)</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note"><sup>†</sup> OOM at batch size 2; reported at batch size 1.</p>
+        </figure>
+      </div>
+    </section>
+
+    <section class="part" id="citations">
+      <p class="part-label blue">Citations</p>
+      <h2 class="paper-title">How to cite</h2>
+
+      <div class="cite-box">
+        <h4>TorchFold</h4>
+        <a class="pill" href="#" data-copy="bib-tf"><i class="fa-regular fa-copy"></i> <span>Copy BibTeX</span></a>
+        <pre id="bib-tf">@misc{torchfoldteam2026,
+  title        = {Improving antibody-antigen structure prediction through large-scale distillation of sequence pairs},
+  author       = {{TorchFold Team}},
+  year         = {2026},
+  note         = {Changping Laboratory},
+  url          = {https://torchx-cpl.github.io}
+}</pre>
+      </div>
+
+      <div class="cite-box">
+        <h4>TorchCraft</h4>
+        <a class="pill" href="#" data-copy="bib-tc"><i class="fa-regular fa-copy"></i> <span>Copy BibTeX</span></a>
+        <pre id="bib-tc">@misc{torchcraftteam2026,
+  title        = {TorchCraft: Unified binder design by inverting an all-atom structure predictor},
+  author       = {{TorchCraft Team}},
+  year         = {2026},
+  note         = {Changping Laboratory},
+  url          = {https://torchx-cpl.github.io}
+}</pre>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>
+        Correspondence: <a href="mailto:mingchenchen@cpl.ac.cn">mingchenchen@cpl.ac.cn</a>
+      </p>
+      <p>GPU and Ascend NPU implementations, TorchFold training code, and the TorchFold-AbAg model weights are open under the MIT license.</p>
+    </footer>
+  </main>
+  <div class="lightbox" id="lightbox" hidden>
+    <button class="lightbox-close" type="button" aria-label="Close enlarged figure">&times;</button>
+    <div class="lightbox-stage">
+      <img alt="" />
+    </div>
+    <p class="lightbox-caption"></p>
+  </div>
+  <script src="app.js?v=clarity-20260911-16"></script>
+</body>
+</html>
