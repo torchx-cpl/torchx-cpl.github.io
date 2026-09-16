@@ -338,17 +338,14 @@
 
       <div class="cmp-block">
         <figure class="table-card">
-          <figcaption class="table-caption"><strong>Table S9.</strong> TorchCraft runtime across sequence lengths. Runtime in minutes, with batch size in parentheses. FA denotes the fused-attention operator. GPU timings are the mean of three independent runs.</figcaption>
+          <figcaption class="table-caption"><strong>Table S9.</strong> TorchCraft runtime across sequence lengths on NPU (with/without fused attention, FA) and GPU (with/without cuequivariance). Batch size 2 is the recommended setting. Runtime is reported in minutes per design, obtained by dividing the total wall-clock time of a batch-size-2 run by 2. GPU timings are the mean of three independent runs.</figcaption>
           <div class="table-scroll">
             <table class="cmp">
               <thead>
                 <tr>
-                  <th rowspan="2">Code</th>
-                  <th rowspan="2">Operator</th>
-                  <th rowspan="2">Machine</th>
-                  <th colspan="5">Runtime [min]</th>
-                </tr>
-                <tr>
+                  <th>Code</th>
+                  <th>Operator</th>
+                  <th>Machine</th>
                   <th>100 aa</th>
                   <th>200 aa</th>
                   <th>300 aa</th>
@@ -361,46 +358,46 @@
                   <td>NPU</td>
                   <td>w/ FA</td>
                   <td>910B (64G)</td>
-                  <td>3.1 <span class="bs">(2)</span></td>
-                  <td>3.75 <span class="bs">(2)</span></td>
-                  <td>6.23 <span class="bs">(2)</span></td>
-                  <td>11.29 <span class="bs">(2)</span></td>
-                  <td>16.56 <span class="bs">(2)</span></td>
+                  <td>3.1</td>
+                  <td>3.75</td>
+                  <td>6.23</td>
+                  <td>11.29</td>
+                  <td>16.56</td>
                 </tr>
                 <tr>
                   <td>NPU</td>
                   <td>w/o FA</td>
                   <td>910B (64G)</td>
-                  <td>3.0 <span class="bs">(2)</span></td>
-                  <td>4.13 <span class="bs">(2)</span></td>
-                  <td>8.63 <span class="bs">(2)</span></td>
-                  <td>14.64 <span class="bs">(2)</span></td>
-                  <td>33.47 <span class="bs">(1)<sup>†</sup></span></td>
+                  <td>3.0</td>
+                  <td>4.13</td>
+                  <td>8.63</td>
+                  <td>14.64</td>
+                  <td>33.47<sup>∗</sup></td>
                 </tr>
                 <tr>
                   <td>GPU</td>
-                  <td>w/o FA</td>
+                  <td>w/ cuequivariance</td>
                   <td>A100 (80G)</td>
-                  <td>2.9 <span class="bs">(1)</span></td>
-                  <td>3.7 <span class="bs">(1)</span></td>
-                  <td>5.3 <span class="bs">(1)</span></td>
-                  <td>7.77 <span class="bs">(1)</span></td>
-                  <td>10.93 <span class="bs">(1)</span></td>
+                  <td>3.92</td>
+                  <td>4.27</td>
+                  <td>4.54</td>
+                  <td>5.85</td>
+                  <td>7.59</td>
                 </tr>
                 <tr>
                   <td>GPU</td>
-                  <td>w/o FA</td>
+                  <td>w/o cuequivariance</td>
                   <td>A100 (80G)</td>
-                  <td>7.83 <span class="bs">(2)</span></td>
-                  <td>8.53 <span class="bs">(2)</span></td>
-                  <td>9.07 <span class="bs">(2)</span></td>
-                  <td>11.7 <span class="bs">(2)</span></td>
-                  <td>15.17 <span class="bs">(2)</span></td>
+                  <td>4.76</td>
+                  <td>7.96</td>
+                  <td>13.08</td>
+                  <td>21.65</td>
+                  <td>33.3</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <p class="table-note"><sup>†</sup> OOM at batch size 2; reported at batch size 1.</p>
+          <p class="table-note"><sup>∗</sup> Batch size 1; batch size 2 exceeded memory (OOM).</p>
         </figure>
       </div>
     </section>
