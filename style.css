@@ -236,21 +236,31 @@ a:hover { text-decoration: underline; }
 
 .hero h1 {
   position: relative;
-  max-width: 980px;
+  width: fit-content;
   margin: 0;
+  color: var(--blue);
+  font-size: clamp(58px, 7vw, 78px);
+  font-weight: 700;
+  letter-spacing: -0.075em;
+  line-height: 0.82;
+}
+
+.hero h1 span { color: var(--ink-deep); }
+
+.hero-statement {
+  max-width: 920px;
+  margin: 24px 0 27px;
   color: var(--ink-deep);
   font-family: var(--serif);
   font-size: clamp(32px, 4.2vw, 48px);
   font-weight: 500;
   letter-spacing: -0.034em;
-  line-height: 1.12;
+  line-height: 1.02;
 }
-
-.hero h1 span { color: var(--blue); font-weight: 600; }
 
 .hero .pills {
   max-width: 880px;
-  margin-top: 36px;
+  margin-top: 42px;
 }
 
 .hero .lede {
@@ -896,7 +906,8 @@ body.lightbox-open { overflow: hidden; }
   .brand span { display: none; }
   .nav-btn { font-size: 13.5px; padding: 8px 10px; }
   .hero { min-height: 410px; padding: 68px 0 44px; }
-  .hero h1 { font-size: clamp(28px, 6.4vw, 40px); }
+  .hero h1 { font-size: clamp(56px, 13vw, 76px); }
+  .hero-statement { max-width: 680px; }
   .orbit-one { right: -90px; }
   .orbit-two { right: -170px; }
   .cards { margin-bottom: 85px; }
@@ -946,7 +957,11 @@ body.lightbox-open { overflow: hidden; }
     padding: 60px 0 42px;
   }
   .kicker { font-size: 10px; }
-  .hero h1 { font-size: clamp(26px, 7.2vw, 34px); }
+  .hero h1 { font-size: clamp(52px, 19vw, 70px); }
+  .hero-statement {
+    margin-top: 36px;
+    font-size: clamp(29px, 8.5vw, 39px);
+  }
   .hero .lede {
     padding-left: 14px;
     font-size: 17px;
