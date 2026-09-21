@@ -59,7 +59,7 @@
       <p class="hero-statement">A Unified Framework for<br />Predicting, Designing, and Scoring Biomolecular Interactions</p>
       <div class="pills">
         <a class="pill solid" href="assets/papers/torchfold.pdf"><i class="fa-regular fa-file-pdf"></i> TorchFold Paper</a>
-        <a class="pill solid" href="assets/papers/torchcraft.pdf"><i class="fa-regular fa-file-pdf"></i> TorchCraft Paper</a>
+        <a class="pill solid" href="https://arxiv.org/abs/2609.19770" target="_blank" rel="noopener"><i class="fa-regular fa-file-pdf"></i> TorchCraft Paper</a>
         <a class="pill" href="https://github.com/Mingchenchen/TorchX" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> Code</a>
         <a class="pill" href="https://torchfold.openi.org.cn/" target="_blank" rel="noopener"><i class="fa-solid fa-server"></i> Web Server</a>
         <a class="pill" href="https://huggingface.co/datasets/TorchX-CPL/TorchFold" target="_blank" rel="noopener"><i class="fa-brands fa-huggingface"></i> Hugging Face</a>
@@ -123,22 +123,21 @@
             <li>Ranked FoldBench-AB success is 70.1%, with a substantial share of medium- and high-quality interfaces.</li>
             <li>The same evaluation is reported on CPL-28, PXMeter-AB, 2026ARK-AB, and AbAg2526 under identical settings.</li>
             <li>Oracle results exceed ranked results across all collections, showing that additional successful interfaces are present in the sampled ensembles.</li>
-            <li>As a checkpoint-transfer experiment, AF3-TF loads the TorchFold-AbAg checkpoint into a compatibility-adapted AF3 implementation. Its success rates closely track TorchFold across all five benchmarks, showing that the learned antibody–antigen prediction capability is retained across implementations.</li>
           </ul>
         </div>
         <figure class="figure split-fig">
-          <img src="assets/figures/tf_fig4.png?v=20260916-cpl28" alt="DockQ success on five Ab-Ag benchmarks" />
-          <figcaption class="caption"><strong>Figure 4.</strong> Antibody–antigen DockQ success. (a) Ranking-based and (b) oracle-based success on FoldBench-AB, 2026ARK-AB, AbAg2526, CPL-28 and PXMeter-AB. AF3-TF denotes AF3 loaded with the TorchFold-AbAg checkpoint.</figcaption>
+          <img src="assets/figures/tf_fig4.png?v=20260921-no-af3tf" alt="DockQ success on five Ab-Ag benchmarks" />
+          <figcaption class="caption"><strong>Figure 4.</strong> Antibody–antigen DockQ success. (a) Ranking-based and (b) oracle-based success on FoldBench-AB, 2026ARK-AB, AbAg2526, CPL-28 and PXMeter-AB.</figcaption>
         </figure>
       </div>
 
       <h3 class="block" id="tf-dockq-curve">DockQ success-rate curve</h3>
       <div class="split split-rev">
         <div class="split-copy">
-          <p>Cumulative DockQ curves show that a substantial fraction of top-ranked predictions on FoldBench-AB, CPL-28, and PXMeter-AB fall in the medium- and high-quality regimes, not only above the acceptable cutoff. The AF3-TF curves remain close to TorchFold across the five benchmarks.</p>
+          <p>Cumulative DockQ curves show that a substantial fraction of top-ranked predictions on FoldBench-AB, CPL-28, and PXMeter-AB fall in the medium- and high-quality regimes, not only above the acceptable cutoff.</p>
         </div>
         <figure class="figure split-fig compact">
-          <img src="assets/figures/tf_fig5.png?v=20260916-cpl28" alt="Cumulative DockQ success-rate curves" />
+          <img src="assets/figures/tf_fig5.png?v=20260921-no-af3tf" alt="Cumulative DockQ success-rate curves" />
           <figcaption class="caption"><strong>Figure 5.</strong> Cumulative DockQ success-rate curves. Fraction of interfaces whose top-ranked prediction reaches DockQ ≥ the cutoff.</figcaption>
         </figure>
       </div>
@@ -216,9 +215,9 @@
       <p class="authors">TorchCraft Team</p>
       <p class="affil">Changping Laboratory, Beijing, China</p>
       <p class="affil">Corresponding author: <a href="mailto:mingchenchen@cpl.ac.cn">mingchenchen@cpl.ac.cn</a></p>
-      <p class="venue">Changping Laboratory, 2026</p>
+      <p class="venue">arXiv:2609.19770, 2026</p>
       <div class="pills">
-        <a class="pill solid" href="assets/papers/torchcraft.pdf"><i class="fa-regular fa-file-pdf"></i> Paper</a>
+        <a class="pill solid" href="https://arxiv.org/abs/2609.19770" target="_blank" rel="noopener"><i class="fa-regular fa-file-pdf"></i> Paper</a>
       </div>
 
       <h3 class="block" id="tc-framework">A frozen predictor as the design engine</h3>
@@ -421,12 +420,14 @@
       <div class="cite-box">
         <h4>TorchCraft</h4>
         <a class="pill" href="#" data-copy="bib-tc"><i class="fa-regular fa-copy"></i> <span>Copy BibTeX</span></a>
-        <pre id="bib-tc">@misc{chen2026torchcraft,
-  title        = {TorchCraft: Hallucination-based all-atom protein design with TorchFold},
-  author       = {{TorchCraft Team}},
-  year         = {2026},
-  note         = {Changping Laboratory},
-  url          = {https://torchx-cpl.github.io}
+        <pre id="bib-tc">@misc{torchcraftteam2026torchcraftunifiedbinderdesign,
+      title={TorchCraft: Unified binder design by inverting an all-atom structure predictor}, 
+      author={TorchCraft Team and Yu Liu and Zhouhanyu Shen and Zhengyi Li and Xikun Huang and Jiaqi Liu and Shuxian Gao and Qilin Yu and Xiayan Qin and Yucheng Zhang and Mingchen Chen},
+      year={2026},
+      eprint={2609.19770},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2609.19770}, 
 }</pre>
       </div>
     </section>
